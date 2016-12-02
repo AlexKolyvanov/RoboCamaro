@@ -6,7 +6,7 @@
 const byte lineSensCount = 11;
 const byte lineSensPin[lineSensCount]  =        { A5,   A6,   A7,   A8,   A9,  A10,  A11,  A12,  A13,  A14,  A15};
 const byte lineLedPin[lineSensCount]   =        { 35,   36,   37,   38,   39,   40,   41,   42,   43,   44,   45};
-const float SensOfSensor[lineSensCount]= 		{  1,	 1,	   1,	 1,	   1,    1,	   1,    1,    1,    1,    1};
+const float SensOfSensor[lineSensCount]= 		{  1,    1,	   1,    1,	   1,    1,	   1,    1,    1,    1,    1};
 
 int sensitivity=500;
 
@@ -18,7 +18,7 @@ const int steeringMax = 300;
 
 const byte motorPin = 3;
 const int maxSpeed = 1590;//1591
-const int minSpeed = 1577
+const int minSpeed = 1577;
 const int zeroSpeed = 1500;
 const int fullBrake = 1300;
 const int reverseSpeed = 1414;
@@ -128,7 +128,7 @@ angleTurn = steeringAngle/activeSens;
 
 deltaTime=nowTime - oldTime;
 oldTime = nowTime;
-angleTurn = (proporcTurnCoef*angleTurn) + (difTurnCoef*((angleTurn - angleTurnOld)/deltaTime))
+angleTurn = (proporcTurnCoef*angleTurn) + (difTurnCoef*((angleTurn - angleTurnOld)/deltaTime));
 
 steeringTurn = angleTurn+steeringCenter;
 motorSpeed = max(maxSpeed-(angleTurn/brakeCoef), minSpeed);
