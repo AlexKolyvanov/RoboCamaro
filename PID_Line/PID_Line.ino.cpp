@@ -1,8 +1,14 @@
+#line 1 "E:/ScetchbookForArduibo/PID_Line/PID_Line.ino"
 //PID_Line.ino
 
 
 #include <Servo.h>
 
+#include <Arduino.h>
+void driveNoPID();
+void drivePID();
+void IrDa();
+#line 6
 const byte lineSensCount = 11;
 const byte lineSensPin[lineSensCount]  =        { A5,   A6,   A7,   A8,   A9,  A10,  A11,  A12,  A13,  A14,  A15};
 const byte lineLedPin[lineSensCount]   =        { 35,   36,   37,   38,   39,   40,   41,   42,   43,   44,   45};
