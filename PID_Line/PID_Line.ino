@@ -6,6 +6,8 @@
 const byte lineSensCount = 11;
 const byte lineSensPin[lineSensCount]  =        { A5,   A6,   A7,   A8,   A9,  A10,  A11,  A12,  A13,  A14,  A15};
 const byte lineLedPin[lineSensCount]   =        { 35,   36,   37,   38,   39,   40,   41,   42,   43,   44,   45};
+const float SensOfSensor[lineSensCount]= 		{  1,	 1,	   1,	 1,	   1,    1,	   1,    1,    1,    1,    1};
+
 int sensitivity=500;
 
 const byte steeringPin = 2;
@@ -63,13 +65,13 @@ for (int i=0; i<lineSensCount; i ++)
 serv.attach(steeringPin);
 dvig.attach(motorPin);
 serv.writeMicroseconds(steeringCenter);
-delay(3000);
 dvig.writeMicroseconds(zeroSpeed);
+delay(3000);
 }
 
 void loop() 
 {
-	drive();
+	driveNoPID();
 }
 
 void driveNoPID()
@@ -82,7 +84,7 @@ steeringAngle=0;
 		pinMode(lineLedPin[i], OUTPUT);
     	pinMode(lineSensPin[i], INPUT); 
     	lineSensValues[i] = analogRead(lineSensPin[i]);
-		if (lineSensValues[i] > sensitivity)
+		if (lineSensValues[i]*SensOfSensor[i] > sensitivity)
 		{
 			digitalWrite(lineLedPin[i], HIGH);
 			steeringAngle = steeringMax*lineSensCoefs[i];
