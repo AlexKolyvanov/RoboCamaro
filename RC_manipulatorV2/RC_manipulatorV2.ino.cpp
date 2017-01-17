@@ -1,7 +1,12 @@
+#line 1 "E:/ScetchbookForArduibo/RC_manipulatorV2/RC_manipulatorV2.ino"
 //RC_manipulatorV2.ino
 
 #include <Servo.h>  					//подключаем библиотеку серво
 
+#include <Arduino.h>
+void RadioControl();
+void ScanRC();
+#line 5
 const int CH1 = 8;						// Назначаем мины для каналов управления с R/C передатчика
 const int CH2 = 9;
 //const int CH3 = 10;
@@ -61,7 +66,7 @@ void setup() {
 
 void loop() {
 	timeloop = millis();
-	if (timeloop % 1 == 0)	RadioControl();					
+	if (timeloop % 10 == 0)	RadioControl();					
 	
 }
 
@@ -78,7 +83,6 @@ void RadioControl()
 	if (current2 >0 && current2 < 180) current2 +=Dur2;
 	else if( current2 <=0) current2 =1 ;
 	else current2 =179;
-	Serial.println(current2, DEC);
 
 	if (current6 >0 && current6 < 180) current6 +=Dur6;
 	else if( current6 <=0) current6 =1 ;
@@ -92,11 +96,11 @@ void RadioControl()
 	//1if (110 > Dur6) current6-=maxSpeed;
 
 	//Serial.println(SpeedStiring, DEC);
-	if (SpeedStiring > 	0) 
+	if (SpeedStiring > 0) 
 	{ // если число положительное, вращаем в одну сторону 
       analogWrite(IA1, SpeedStiring); //
       analogWrite(IA2, LOW);      
-      //Serial.println(SpeedStiring, DEC);
+      Serial.println(SpeedStiring, DEC);
     }
 
     else 
@@ -127,7 +131,7 @@ void ScanRC()
 	//Dur3=map(Dur3,952,1967,0,180);
 
 	Dur4 = pulseIn(CH4, HIGH);   	// для поворотного двигателя
-	//Serial.println(Dur2, DEC);
+	//Serial.println(Dur4, DEC);
 
 	//Serial.println(Dur4, DEC);             // 981 ... 1940    // Крутая система интерполяции, чтобы перепрыгнуть момент, когда у движка не хватает силы 
 	if (1415 <= Dur4 && Dur4 <= 1485) {SpeedStiring = 1; }		// и устранить нулевую погрешность
