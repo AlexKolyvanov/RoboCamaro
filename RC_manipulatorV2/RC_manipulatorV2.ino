@@ -1,5 +1,4 @@
 //RC_manipulatorV2.ino
-
 #include <Servo.h>  					//подключаем библиотеку серво
 
 const int CH1 = 8;						// Назначаем мины для каналов управления с R/C передатчика
@@ -21,7 +20,7 @@ int current6 = 90;
 
 int SpeedStiring = 0;				// переменая для скорости поворота
 
-const int SerialMonSpeed=9600;       // скорость последовательного порта для монитора
+const int SerialMonSpeed = 9600;       // скорость последовательного порта для монитора
 long Dur1=0;						// переменные для записывания значения ШИМ с R/C приемника
 long Dur2=0;
 long Dur3=0;
@@ -75,10 +74,11 @@ void RadioControl()
 	else if( current1 <=0) current1 =1 ;
 	else current1 =179;
 
-	if (current2 >0 && current2 < 180) current2 +=Dur2;
+	if (current2 >0 && current2 < 180) current2 -=Dur2;
 	else if( current2 <=0) current2 =1 ;
 	else current2 =179;
 	Serial.println(current2, DEC);
+
 
 	if (current6 >0 && current6 < 180) current6 +=Dur6;
 	else if( current6 <=0) current6 =1 ;
@@ -130,11 +130,14 @@ void ScanRC()
 	//Serial.println(Dur2, DEC);
 
 	//Serial.println(Dur4, DEC);             // 981 ... 1940    // Крутая система интерполяции, чтобы перепрыгнуть момент, когда у движка не хватает силы 
-	if (1415 <= Dur4 && Dur4 <= 1485) {SpeedStiring = 1; }		// и устранить нулевую погрешность
-	else if (1375 <= Dur4  && Dur4 <= 1525) {SpeedStiring = map(Dur4, 1050, 1850 , -125, 125);}
-	else if (981 <= Dur4  && Dur4 <= 1375 ) {SpeedStiring=map(Dur4,981,1050,-180,-125);}
-	else if ( 1525 <= Dur4  && Dur4 <= 1970) {SpeedStiring=map(Dur4,981,1970,125, 180);}
-	else {SpeedStiring =1; }
+	// if (1415 <= Dur4 && Dur4 <= 1485) {SpeedStiring = 1; }		// и устранить нулевую погрешность
+	// else if (1375 <= Dur4  && Dur4 <= 1525) {SpeedStiring = map(Dur4, 1050, 1850 , -125, 125);}
+	// else if (981 <= Dur4  && Dur4 <= 1375 ) {SpeedStiring=map(Dur4,981,1050,-180,-125);}
+	// else if ( 1525 <= Dur4  && Dur4 <= 1970) {SpeedStiring=map(Dur4,981,1970,125, 180);}
+	// else {SpeedStiring =1; }
+
+	SpeedString = interpolation(Dur4);
+
 	//Serial.println(SpeedStiring, DEC); 
 
 	Dur5 = pulseIn(CH5, HIGH);     	// Для сервы в основании
@@ -144,4 +147,21 @@ void ScanRC()
 
 	Dur6 = pulseIn(CH6, HIGH);		// для локтя
 	Dur6=map(Dur6,1000,2000,-5,5);
+}
+
+int interpolation(dur) {
+	const int speed = 1;
+	if (1415 <= dur && dur <= 1485) {speed = 1; }		// и устранить нулевую погрешность
+	else if (1375 <= dur  && dur <= 1525) {speed = map(dur, 1050, 1850 , -125, 125);}
+	else if (981 <= dur  && dur <= 1375 ) {speed = map(dur,981,1050,-180,-125);}
+	else if ( 1525 <= dur  && dur <= 1970) {speed = map(dur,981,1970,125, 180);}
+	// else {speed = 1; }
+	if (dur < 981 || dur > 1970) return speed;
+
+	if (dur <= 1375) {
+		speed = map(dur,981,1050,-180,-125);
+	}
+	else if ()
+
+	return speed;
 }
