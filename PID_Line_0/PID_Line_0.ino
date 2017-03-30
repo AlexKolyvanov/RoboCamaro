@@ -1,3 +1,4 @@
+//#include <ServoTimers.h>
 //PID_Line.ino
 
 
@@ -6,7 +7,7 @@
 const byte lineSensCount = 11;
 const byte lineSensPin[lineSensCount]  =        { A5,   A6,   A7,   A8,   A9,  A10,  A11,  A12,  A13,  A14,  A15};
 const byte lineLedPin[lineSensCount]   =        { 35,   36,   37,   38,   39,   40,   41,   42,   43,   44,   45};
-const float SensOfSensor[lineSensCount]=        {  1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1};
+const float SensOfSensor[lineSensCount]= 	    {  1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1};
 
 int sensitivity=500;
 
@@ -23,7 +24,7 @@ const int zeroSpeed = 1500;
 const int fullBrake = 1300;
 const int reverseSpeed = 1414;
 const int brakeCoef = 15;
-int motorSpeed;
+const int motorSpeed;
 
 int lineSensValues[lineSensCount];
 const int lineSensCoefs[lineSensCount] = {1,	 0.8,	 0.5,	 0.2,	 0.1,	 0 ,	 -0.1,	 -0.2,	 -0.5,	 -0.8,	 -1};
@@ -81,8 +82,8 @@ steeringAngle=0;
 
 	for (int i=0; i<lineSensCount; i++)
 	{
-		pinMode(lineLedPin[i], OUTPUT);
-    	pinMode(lineSensPin[i], INPUT); 
+		//SpinMode(lineLedPin[i], OUTPUT);
+    	//SpinMode(lineSensPin[i], INPUT); 
     	lineSensValues[i] = analogRead(lineSensPin[i]);
 		if (lineSensValues[i]*SensOfSensor[i] > sensitivity)
 		{
